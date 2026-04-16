@@ -7,31 +7,31 @@ import org.junit.jupiter.api.*;
 public class ResourceTypesTest extends BaseTest {
 
     @Test
-    @DisplayName("TC-21: Filter for 'Online Textbooks'")
+    @DisplayName("TC-5.1: Filter for 'Online Textbooks'")
     public void testTextbookFilter() {
         // TODO: Use 'Resource Type' filter for textbooks
     }
 
     @Test
-    @DisplayName("TC-22: Filter for 'Interactive Simulations'")
+    @DisplayName("TC-5.2: Filter for 'Interactive Simulations'")
     public void testSimulationFilter() {
         // TODO: Use 'Resource Type' filter for simulations
     }
 
     @Test
-    @DisplayName("TC-23: Resource download link validation")
+    @DisplayName("TC-5.3: Resource download link validation")
     public void testDownloadLink() {
         // TODO: Check if individual resource PDFs have valid hrefs
     }
 
     @Test
-    @DisplayName("TC-24: Assignments page access")
+    @DisplayName("TC-5.4: Assignments page access")
     public void testAssignmentsAccess() {
         // TODO: Navigate to 'Assignments' section of a course
     }
 
     @Test
-    @DisplayName("TC-25: Exam solution accessibility")
+    @DisplayName("TC-5.5: Exam solution accessibility")
     public void testExamSolutions() {
         // TODO: Verify 'Exam' resources are listed where applicable
     }
