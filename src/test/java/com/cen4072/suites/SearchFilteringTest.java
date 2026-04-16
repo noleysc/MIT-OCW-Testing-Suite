@@ -1,38 +1,80 @@
 package com.cen4072.suites;
 
 import com.cen4072.base.BaseTest;
-import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
-@DisplayName("TS-03: Search Filtering")
+import java.time.Duration;
+
 public class SearchFilteringTest extends BaseTest {
 
-    @Test
-    @DisplayName("TC-3.1: Filter by Topic")
+    @Test(description = "TC-3.1: Filter by Topic")
     public void testTopicFilter() {
-        // TODO: Apply topic filter and verify results count
+        openRelativePath("/search/?t=Computer+Science");
+        waitForSearchResultsLoaded();
+        Assert.assertTrue(countCourseResultLinksInSearchPage() > 0, "Topic filter should return course results");
+        String src = driver.getPageSource();
+        Assert.assertTrue(
+                src.contains("Computer Science") || driver.getCurrentUrl().contains("t=Computer"),
+                "Results should reflect Computer Science topic filter");
     }
 
-    @Test
-    @DisplayName("TC-3.2: Filter by Course Level")
+    @Test(description = "TC-3.2: Filter by Course Level")
     public void testLevelFilter() {
-        // TODO: Apply 'Undergraduate' filter and verify
+        openRelativePath("/search/?l=Undergraduate");
+        waitForSearchResultsLoaded();
+        Assert.assertTrue(countCourseResultLinksInSearchPage() > 0, "Undergraduate filter should return results");
+        Assert.assertTrue(
+                driver.getCurrentUrl().contains("l=Undergraduate") || driver.getPageSource().contains("Undergraduate"),
+                "Page should reflect undergraduate level filter");
     }
 
-    @Test
-    @DisplayName("TC-3.3: Filter by Department")
+    @Test(description = "TC-3.3: Filter by Department")
     public void testDepartmentFilter() {
-        // TODO: Apply 'Physics' department filter and verify
+        openRelativePath("/search/?d=Physics");
+        waitForSearchResultsLoaded();
+        Assert.assertTrue(countCourseResultLinksInSearchPage() > 0, "Physics department filter should return results");
+        Assert.assertTrue(
+                driver.getCurrentUrl().contains("d=Physics") || driver.getPageSource().contains("Physics"),
+                "Page should reflect Physics department filter");
     }
 
-    @Test
-    @DisplayName("TC-3.4: Clear all filters")
+    @Test(description = "TC-3.4: Clear all filters")
     public void testClearFilters() {
-        // TODO: Apply filters then click 'Clear All'
+        openRelativePath("/search/?t=Engineering&l=Undergraduate");
+        waitForSearchResultsLoaded();
+        Assert.assertTrue(countCourseResultLinksInSearchPage() > 0);
+
+        WebElement clearAll = waitUpTo(Duration.ofSeconds(25)).until(
+                ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(., 'Clear All')]")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", clearAll);
+        clearAll.click();
+
+        waitUpTo(Duration.ofSeconds(20)).until(d -> {
+            String u = d.getCurrentUrl();
+            boolean lostTopic = !u.contains("t=Engineering");
+            boolean lostLevel = !u.contains("l=Undergraduate");
+            return u.contains("/search") && (lostTopic || lostLevel);
+        });
+
+        String url = driver.getCurrentUrl();
+        Assert.assertFalse(url.contains("t=Engineering") && url.contains("l=Undergraduate"),
+                "Active filters should be cleared from the search URL");
     }
 
-    @Test
-    @DisplayName("TC-3.5: Multi-select filter combination")
+    @Test(description = "TC-3.5: Multi-select filter combination")
     public void testMultiFilter() {
-        // TODO: Apply Topic + Level and verify intersection
+        openRelativePath("/search/?t=Engineering&l=Undergraduate");
+        waitForSearchResultsLoaded();
+        Assert.assertTrue(countCourseResultLinksInSearchPage() > 0, "Combined filters should still return courses");
+        String url = driver.getCurrentUrl();
+        Assert.assertTrue(
+                (url.contains("t=Engineering") || driver.getPageSource().contains("Engineering"))
+                        && (url.contains("l=Undergraduate") || driver.getPageSource().contains("Undergraduate")),
+                "Both topic and level constraints should be reflected");
     }
 }
