@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="CEN4072 Test Suite" verbose="1" parallel="false">
+    <test name="OCW Regression Tests">
+        <classes>
+            <class name="com.cen4072.suites.NavigationAndBrandingTest"/>
+            <class name="com.cen4072.suites.CourseSearchTest"/>
+            <class name="com.cen4072.suites.SearchFilteringTest"/>
+            <class name="com.cen4072.suites.CoursePageContentTest"/>
+            <class name="com.cen4072.suites.ResourceTypesTest"/>
+            <class name="com.cen4072.suites.ResponsiveDesignTest"/>
+            <class name="com.cen4072.suites.UserPreferencesTest"/>
+            <class name="com.cen4072.suites.IntegrationAndSocialTest"/>
+        </classes>
+    </test>
+</suite>
