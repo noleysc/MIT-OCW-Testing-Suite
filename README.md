@@ -1,5 +1,4 @@
 # MIT-OCW-Testing-Suite
-CEN4072 Final Project
 =======
 # CEN 4072 Final Project: MIT OpenCourseWare Automation
 
