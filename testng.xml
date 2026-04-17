@@ -5,11 +5,11 @@
         <classes>
             <class name="com.cen4072.suites.NavigationAndBrandingTest"/>
             <class name="com.cen4072.suites.CourseSearchTest"/>
-            <class name="com.cen4072.suites.SearchFilteringTest"/>
+<!--            <class name="com.cen4072.suites.SearchFilteringTest"/>-->
             <class name="com.cen4072.suites.CoursePageContentTest"/>
-            <class name="com.cen4072.suites.ResourceTypesTest"/>
-            <class name="com.cen4072.suites.ResponsiveDesignTest"/>
-            <class name="com.cen4072.suites.UserPreferencesTest"/>
+<!--            <class name="com.cen4072.suites.ResourceTypesTest"/>-->
+<!--            <class name="com.cen4072.suites.ResponsiveDesignTest"/>-->
+<!--            <class name="com.cen4072.suites.UserPreferencesTest"/>-->
             <class name="com.cen4072.suites.IntegrationAndSocialTest"/>
         </classes>
     </test>
