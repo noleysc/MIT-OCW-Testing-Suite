@@ -6,29 +6,39 @@ This project is a comprehensive automated testing suite for the [MIT OpenCourseW
 
 ## Tech Stack
 - **Language:** Java 17
-- **BDD Framework:** Cucumber (using **Gherkin** syntax)
+- **Test Runner:** TestNG 7.8.0
 - **Automation Engine:** Selenium WebDriver 4
-- **Reporting & Orchestration:** Serenity BDD
+- **Reporting:** Allure Report
 - **Build Tool:** Maven 3.9.6
-- **Test Runner:** JUnit 5
 
-## BDD & Gherkin Strategy
-This project follows a **Behavior-Driven Development (BDD)** approach. We use **Gherkin** to bridge the gap between technical implementation and business requirements:
-- **Given:** Initial context (e.g., "Given I am on the home page")
-- **When:** User action (e.g., "When I search for 'Python'")
-- **Then:** Expected outcome (e.g., "Then I should see search results")
+## Project Structure
+- `src/test/java/com/cen4072/base/`: Contains `BaseTest.java` for centralized WebDriver setup/teardown using TestNG `@BeforeSuite` and `@AfterSuite`.
+- `src/test/java/com/cen4072/suites/`: Contains functional test suites migrated to TestNG with Allure annotations.
+- `testng.xml`: Configuration file for defining test suites and execution parameters.
+- `pom.xml`: Project Object Model file with updated dependencies for TestNG, Allure, and AspectJ.
 
-## Serenity BDD Reporting
-Serenity BDD is used to generate "Living Documentation." After running the tests, it produces a rich HTML report that includes:
-- Step-by-step execution details.
-- Automatic screenshots of failures.
-- Functional coverage requirements.
-- Narrative reports for stakeholders.
-
-## How to Run
-To execute the full suite and generate the Serenity report:
+## Running Tests
+To execute the full suite:
 ```powershell
-mvn clean verify
+mvn clean test
 ```
-The report will be available at: `target/site/serenity/index.html`
->>>>>>> e6c28a6 (Initial commit for CEN 4072 Final Project - MIT OCW Automation Framework)
+This will run the tests as defined in `testng.xml` and generate results in the `allure-results` folder.
+
+## Allure Reporting
+Allure Report is used for rich, interactive test documentation. After running the tests, you can generate and view the report:
+
+1. **Generate the report:**
+   ```powershell
+   mvn allure:report
+   ```
+2. **Open the report:**
+   ```powershell
+   mvn allure:serve
+   ```
+The report provides step-by-step execution details, trends, and detailed failure analysis.
+
+## Development Conventions
+1. **Inheritance:** All test suites must extend `BaseTest`.
+2. **Annotations:** Use `@Test(description = "...")` for test cases and Allure's `@Epic` and `@Feature` for classification.
+3. **Assertions:** Use `org.testng.Assert` for all validations.
+4. **Wait Strategies:** Use `WebDriverWait` (Explicit/Fluent Waits) for robust element interaction.

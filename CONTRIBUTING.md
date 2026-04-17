@@ -1,29 +1,28 @@
-# Contributing to CEN 4072 Automation
+# Contributing to MIT-OCW-Testing-Suite
 
-Thank you for contributing to this software testing project! To maintain a professional standard, please follow these guidelines.
+Thank you for contributing! Please follow these guidelines to ensure the quality and consistency of the automation suite.
 
-## 🥒 Writing Gherkin Scenarios
-All new features should be documented in `.feature` files using clear, concise Gherkin.
-- Use **Scenario Outlines** for data-driven tests.
-- Keep "Given" steps focused on setup, "When" on actions, and "Then" on assertions.
+## Development Workflow
 
-## 💻 Java Code Standards
-- **Page Object Model (POM):** Do not hardcode selectors in step definitions. Use Page Objects to encapsulate UI elements.
-- **BaseTest Inheritance:** All test suites must extend `BaseTest` to ensure proper browser lifecycle management.
-- **Wait Strategies:** Use `WebDriverWait` (Fluent Waits) instead of `Thread.sleep()` to ensure test stability.
+1.  **Branching Strategy:** Create a new branch for each feature or bug fix: `git checkout -b feature/your-feature-name`.
+2.  **Test Implementation:**
+    *   Extend `BaseTest`.
+    *   Use TestNG `@Test(description = "...")` for all test methods.
+    *   Include Allure `@Epic` and `@Feature` annotations at the class level.
+    *   Use `@Step` for reusable helper methods.
+3.  **Assertions:** Use `org.testng.Assert` for all validations.
+4.  **Verification:** Before submitting a PR, ensure all tests pass and generate an Allure report to verify the results.
 
-## 🧪 Test Suite Structure
-The project is organized into 8 core suites:
-1. Navigation & Branding
-2. Course Search
-3. Search Filtering
-4. Course Page Content
-5. Resource Types
-6. Responsive Design
-7. User Preferences
-8. Integration & Social
+## Reporting & Documentation
 
-## 🚀 Pull Request Process
-1. Ensure all tests pass locally using `mvn test`.
-2. Generate a Serenity report to verify visual documentation.
-3. Update the `README.md` if new dependencies are added.
+We use **Allure Report** for living documentation. Every test should be clearly described so that non-technical stakeholders can understand the coverage.
+
+### Commands
+*   Run tests: `mvn clean test`
+*   Generate report: `mvn allure:report`
+*   Serve report: `mvn allure:serve`
+
+## Code Style
+*   Follow standard Java naming conventions (PascalCase for classes, camelCase for methods/variables).
+*   Use meaningful names for test methods (e.g., `testSearchByValidKeyword`).
+*   Keep test methods focused and independent.

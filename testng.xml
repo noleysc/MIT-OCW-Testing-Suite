@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="MIT OCW Test Suite">
+    <test name="Functional Tests">
+        <packages>
+            <package name="com.cen4072.suites" />
+        </packages>
+    </test>
+</suite>
