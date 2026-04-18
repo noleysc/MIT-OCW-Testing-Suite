@@ -1,0 +1,93 @@
+CEN 4072: Software Testing Spring 2026
+Final Project report format
+As the deliverable for the course, students will apply their knowledge of software testing in teams of 2 or 3:
+1.	Create a test suite for a software system
+a.	Your project could be an application of Integration, System, End-to-end, Acceptance or regression testing
+b.	Must include at least 8-unit tests (in separate classes)
+c.	Each Unit Tests should have at least 5 well defined methods
+2.	Must include a combined test code(integration) using any testing tool for all unit tests- (TestNG.xml)
+3.	The system under test may be a real-world website or web application. Students should identify and address possible automation constraints such as alerts, captchas/bot protection, pop-ups, or dynamic elements while designing their automation tests.
+______________________________________________________________________________
+Grading of the project will consist of 2 parts: an in-class demonstration and a report submission per team.
+Part 1: In- Class Demonstration (60%) 
+Power Point Presentation Slides:
+Slide 1:
+	Project Title, Instructor name, Course Name, Team members names. 
+Slide 2:
+	Goal of your project and motivation (State what difference will your tests make to the system)
+Slide 3:
+	Workflow diagram of your project
+Slide 4:
+	Highlight individual member test contributions. Power point and report should be the contribution by everyone in the group.
+Slide 5:
+•	Tools used: a list of software testing tools used for the project.
+Slide 6 and more:              
+•	High-level summary of the system and your tests
+•	Option1: Explain every unit/Integration of each of your testing (Screenshots/ cut paste of your passed tests with modules)
+•	Option 2: The code should be clear on the screen you may walk through your IDE if you can enlarge and explain.
+Last Slide: Conclusion and future works, TestNG reports and add references after this last slide.
+After the presentation you need to show all your classes, execution and all passed test cases.
+Note: You must screen record your work, and you will have to use it if your execution gets delayed (must) and you may reorder the slides as per your requirements and that is fine.
+______________________________________________________________________________
+Part 2: Report  40% (pdf/word)
+•	Submit a Word document/PDF of your software testing project with the following information:
+Software Testing Project Report Format:
+ 1. Project Description
+ 	      1.1 Project Title Page
+Project Title:
+Instructor Name:
+Course Name & Code:
+Group Number:
+Team Members:
+(Include full names and student IDs if required)
+1.2 Project Goal
+Clearly state the objective of your testing project.
+What do you aim to achieve through this testing suite?
+1.3 System & Test Summary
+Provide a high-level overview of the system or application tested.
+Summarize the types of tests implemented (e.g., unit, integration, system).
+Briefly describe test coverage and design approach.
+1.4 Workflow Diagram
+Include a diagram or flowchart showing your testing strategy or pipeline.
+(Tools like Lucid chart, Draw.io, or PowerPoint diagrams can be used.)
+Note: It should also be visible and clear when you present
+1.5 Code Repository & Submission
+GitHub Link: Provide a direct link to your public GitHub repository.
+Code Submission: A ZIP file containing all test classes and configuration files is attached with this report.
+(State: “Code archive is attached to this report submission.”)
+
+2. Work Conducted
+2.1 Overview of Work
+Describe the testing activities carried out, such as:
+Test planning
+Test development
+Integration of test classes
+Execution and reporting
+2.2 Individual Contributions
+Clearly outline each member’s contribution to the project.
+Example format:
+Student A: Wrote unit tests for Login & Signup modules
+Student B: Developed integration tests and configured testng.xml
+________________________________________
+3. Tools Used
+List all testing tools, libraries, and technologies used in the project:
+Java
+Selenium WebDriver
+TestNG
+Maven
+Git / GitHub
+Browsers and OS environments tested on
+
+ 4. Motivation
+Explain the value and impact of your testing efforts.
+What issues might your tests help prevent or uncover?
+How will your test suite improve the system’s quality or reliability?
+
+5. Appendix
+Attach the ZIP file containing:
+All source/test code (.java files)
+pom.xml file
+testng.xml configuration
+Screenshots of test execution (if any)
+Any generated reports (e.g., TestNG HTML reports)
+
