@@ -12,6 +12,9 @@
     <serenity.version>4.0.15</serenity.version>
     <selenium.version>4.14.1</selenium.version>
     <webdrivermanager.version>5.6.2</webdrivermanager.version>
+    <!-- Default: only Surefire (TestNG). Enable Cucumber + Serenity with: -Pbdd -->
+    <skipITs>true</skipITs>
+    <serenity.skip>true</serenity.skip>
   </properties>
 
   <dependencies>
@@ -100,14 +103,24 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.1</version>
         <configuration>
-          <skip>true</skip>
+          <suiteXmlFiles>
+            <suiteXmlFile>testng.xml</suiteXmlFile>
+          </suiteXmlFiles>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-testng</artifactId>
+            <version>3.2.1</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>3.2.1</version>
         <configuration>
+          <skipITs>${skipITs}</skipITs>
           <includes>
             <include>**/CucumberTestSuite.java</include>
           </includes>
@@ -125,6 +138,9 @@
         <groupId>net.serenity-bdd.maven.plugins</groupId>
         <artifactId>serenity-maven-plugin</artifactId>
         <version>${serenity.version}</version>
+        <configuration>
+          <skip>${serenity.skip}</skip>
+        </configuration>
         <executions>
           <execution>
             <id>serenity-reports</id>
@@ -137,4 +153,14 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>bdd</id>
+      <properties>
+        <skipITs>false</skipITs>
+        <serenity.skip>false</serenity.skip>
+      </properties>
+    </profile>
+  </profiles>
 </project>

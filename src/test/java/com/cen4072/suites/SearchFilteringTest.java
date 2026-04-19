@@ -21,6 +21,7 @@ public class SearchFilteringTest extends BaseTest {
         Assert.assertTrue(
                 src.contains("Computer Science") || driver.getCurrentUrl().contains("t=Computer"),
                 "Results should reflect Computer Science topic filter");
+        logOutcome("Topic filter course links", countCourseResultLinksInSearchPage());
     }
 
     @Test(description = "TC-3.2: Filter by Course Level")
@@ -31,6 +32,7 @@ public class SearchFilteringTest extends BaseTest {
         Assert.assertTrue(
                 driver.getCurrentUrl().contains("l=Undergraduate") || driver.getPageSource().contains("Undergraduate"),
                 "Page should reflect undergraduate level filter");
+        logOutcome("Level filter URL", driver.getCurrentUrl());
     }
 
     @Test(description = "TC-3.3: Filter by Department")
@@ -41,6 +43,7 @@ public class SearchFilteringTest extends BaseTest {
         Assert.assertTrue(
                 driver.getCurrentUrl().contains("d=Physics") || driver.getPageSource().contains("Physics"),
                 "Page should reflect Physics department filter");
+        logOutcome("Department filter course links", countCourseResultLinksInSearchPage());
     }
 
     @Test(description = "TC-3.4: Clear all filters")
@@ -49,12 +52,12 @@ public class SearchFilteringTest extends BaseTest {
         waitForSearchResultsLoaded();
         Assert.assertTrue(countCourseResultLinksInSearchPage() > 0);
 
-        WebElement clearAll = waitUpTo(Duration.ofSeconds(25)).until(
+        WebElement clearAll = waitUpTo(Duration.ofSeconds(5)).until(
                 ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(., 'Clear All')]")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", clearAll);
         clearAll.click();
 
-        waitUpTo(Duration.ofSeconds(20)).until(d -> {
+        waitUpTo(Duration.ofSeconds(5)).until(d -> {
             String u = d.getCurrentUrl();
             boolean lostTopic = !u.contains("t=Engineering");
             boolean lostLevel = !u.contains("l=Undergraduate");
@@ -64,6 +67,7 @@ public class SearchFilteringTest extends BaseTest {
         String url = driver.getCurrentUrl();
         Assert.assertFalse(url.contains("t=Engineering") && url.contains("l=Undergraduate"),
                 "Active filters should be cleared from the search URL");
+        logOutcome("URL after Clear All", url);
     }
 
     @Test(description = "TC-3.5: Multi-select filter combination")
@@ -76,5 +80,6 @@ public class SearchFilteringTest extends BaseTest {
                 (url.contains("t=Engineering") || driver.getPageSource().contains("Engineering"))
                         && (url.contains("l=Undergraduate") || driver.getPageSource().contains("Undergraduate")),
                 "Both topic and level constraints should be reflected");
+        logOutcome("Combined filters URL", url);
     }
 }

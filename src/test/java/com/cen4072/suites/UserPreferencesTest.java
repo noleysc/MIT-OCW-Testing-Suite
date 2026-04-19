@@ -1,6 +1,7 @@
 package com.cen4072.suites;
 
 import com.cen4072.base.BaseTest;
+import com.cen4072.support.OcwSampleCourse;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
@@ -14,15 +15,16 @@ import java.time.Duration;
 
 public class UserPreferencesTest extends BaseTest {
 
-    @Test(description = "TC-7.1: Dark mode toggle")
+    @Test(description = "TC-7.1: Dark-themed navigation (no separate theme toggle on OCW)")
     public void testDarkMode() {
         navigateHome();
         Assert.assertFalse(
                 driver.findElements(By.cssSelector("nav.navbar-dark.bg-black")).isEmpty(),
                 "OCW ships a dark-styled navigation bar (there is no separate end-user theme toggle on ocw.mit.edu)");
+        logOutcome("Dark navbar present", !driver.findElements(By.cssSelector("nav.navbar-dark.bg-black")).isEmpty());
     }
 
-    @Test(description = "TC-7.2: Language selection")
+    @Test(description = "TC-7.2: Primary language (html lang / English content)")
     public void testLanguageSelection() {
         openRelativePath("/about/");
         WebElement html = driver.findElement(By.tagName("html"));
@@ -30,6 +32,7 @@ public class UserPreferencesTest extends BaseTest {
         Assert.assertTrue(
                 driver.getPageSource().contains("OpenCourseWare"),
                 "About page content should load in English");
+        logOutcome("html lang", html.getAttribute("lang"));
     }
 
     @Test(description = "TC-7.3: Font size adjustment")
@@ -45,18 +48,20 @@ public class UserPreferencesTest extends BaseTest {
                 "Layout should remain functional after a browser zoom / font-size shortcut");
         Assert.assertNotNull(before);
         Assert.assertNotNull(after);
+        logOutcome("Body font-size before/after Ctrl+", before + " → " + after);
     }
 
     @Test(description = "TC-7.4: 'Hide/Show' sidebar")
     public void testSidebarToggle() {
-        openRelativePath("/courses/6-006-introduction-to-algorithms-fall-2011/");
+        openRelativePath(OcwSampleCourse.PATH);
         driver.manage().window().setSize(new Dimension(375, 812));
-        WebElement menuBtn = waitUpTo(Duration.ofSeconds(15)).until(
+        WebElement menuBtn = waitUpTo(Duration.ofSeconds(5)).until(
                 ExpectedConditions.elementToBeClickable(By.id("mobile-course-nav-toggle")));
         menuBtn.click();
-        WebElement drawer = waitUpTo(Duration.ofSeconds(10)).until(
+        WebElement drawer = waitUpTo(Duration.ofSeconds(5)).until(
                 ExpectedConditions.visibilityOfElementLocated(By.id("mobile-course-nav")));
         Assert.assertTrue(drawer.isDisplayed(), "Course materials drawer should open from the Menu control");
+        logOutcome("Mobile course drawer visible", drawer.isDisplayed());
         driver.manage().window().maximize();
     }
 
@@ -69,5 +74,6 @@ public class UserPreferencesTest extends BaseTest {
         Assert.assertTrue(
                 cookies != null && cookies.contains("cen4072_automation_test=1"),
                 "A cookie set client-side should still be present after refresh (persistence check)");
+        logOutcome("document.cookie contains test flag", cookies != null && cookies.contains("cen4072_automation_test=1"));
     }
 }

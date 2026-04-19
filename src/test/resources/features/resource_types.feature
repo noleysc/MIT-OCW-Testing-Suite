@@ -19,6 +19,6 @@ Feature: Resource Types
     Given I navigate to the assignments page of a sample course
     Then I should see course assignment content
 
-  Scenario: Exam solution accessibility
+  Scenario: Learning resource types on course home
     Given I am on the main page of a sample course
-    Then I should see "Exam Solutions" listed as a resource
+    Then I should see "Lecture Videos" listed as a resource

@@ -17,20 +17,22 @@ public class ResponsiveDesignTest extends BaseTest {
     public void testMobileMenu() {
         navigateHome();
         driver.manage().window().setSize(new Dimension(375, 812));
-        WebElement toggler = waitUpTo(Duration.ofSeconds(15)).until(
+        WebElement toggler = waitUpTo(Duration.ofSeconds(5)).until(
                 ExpectedConditions.elementToBeClickable(By.cssSelector("#mobile-header .navbar-toggler")));
         toggler.click();
         WebElement collapse = driver.findElement(By.cssSelector("#mobile-header #navbarSupportedContent"));
         waitUpTo(Duration.ofSeconds(5)).until(
                 d -> collapse.getAttribute("class") != null && collapse.getAttribute("class").contains("show"));
         Assert.assertTrue(collapse.isDisplayed(), "Mobile navigation should expand after toggling the menu");
+        logOutcome("Mobile nav expanded (class contains show)",
+                collapse.getAttribute("class") != null && collapse.getAttribute("class").contains("show"));
     }
 
     @Test(description = "TC-6.2: Tablet layout grid")
     public void testTabletLayout() {
         navigateHome();
         driver.manage().window().setSize(new Dimension(900, 900));
-        waitUpTo(Duration.ofSeconds(15)).until(
+        waitUpTo(Duration.ofSeconds(5)).until(
                 ExpectedConditions.presenceOfElementLocated(By.cssSelector(".course-cards .course-card")));
         int cards = driver.findElements(By.cssSelector(".course-cards .course-card")).size();
         Assert.assertTrue(cards >= 2, "Homepage should show multiple course cards");
@@ -46,29 +48,32 @@ public class ResponsiveDesignTest extends BaseTest {
         Assert.assertTrue(
                 Boolean.TRUE.equals(twoInFirstRow),
                 "Course grid should show at least two cards in the same row at medium widths");
+        logOutcome("Visible course cards at tablet width", cards);
     }
 
     @Test(description = "TC-6.3: Search bar visibility on mobile")
     public void testMobileSearch() {
         navigateHome();
         driver.manage().window().setSize(new Dimension(375, 812));
-        WebElement search = waitUpTo(Duration.ofSeconds(10)).until(
+        WebElement search = waitUpTo(Duration.ofSeconds(5)).until(
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='q']")));
         Assert.assertTrue(search.isDisplayed() && search.isEnabled(),
                 "Homepage search field should remain usable on small viewports");
+        logOutcome("Mobile search visible", search.isDisplayed());
     }
 
     @Test(description = "TC-6.4: Image scaling")
     public void testImageScaling() {
         navigateHome();
         driver.manage().window().setSize(new Dimension(375, 812));
-        WebElement heroImg = waitUpTo(Duration.ofSeconds(10)).until(
+        WebElement heroImg = waitUpTo(Duration.ofSeconds(5)).until(
                 ExpectedConditions.presenceOfElementLocated(By.cssSelector("#home-header img")));
         int imgWidth = heroImg.getRect().getWidth();
         int viewport = driver.manage().window().getSize().getWidth();
         Assert.assertTrue(
                 imgWidth <= viewport + 4,
                 "Hero image should not overflow the viewport on a narrow screen");
+        logOutcome("Hero image width vs viewport", imgWidth + "px / " + viewport + "px");
     }
 
     @Test(description = "TC-6.5: Desktop-to-Mobile transition")
@@ -82,6 +87,7 @@ public class ResponsiveDesignTest extends BaseTest {
                 "return document.documentElement.scrollWidth <= document.documentElement.clientWidth + 2");
         Assert.assertTrue(Boolean.TRUE.equals(desktopOk) && Boolean.TRUE.equals(mobileOk),
                 "Page should not introduce horizontal overflow after resizing");
+        logOutcome("No horizontal overflow (desktop, mobile)", desktopOk + ", " + mobileOk);
     }
 
     @AfterMethod
