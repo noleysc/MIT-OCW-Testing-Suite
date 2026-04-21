@@ -10,7 +10,7 @@ package com.cen4072.support;
 public final class OcwSampleCourse {
 
     public static final String PATH =
-            "/courses/6-006-introduction-to-algorithms-spring-2020/";
+            "courses/6-006-introduction-to-algorithms-spring-2020/";
 
     /** Resource page that should expose lecture media (iframe/video) for smoke tests. */
     public static final String LECTURE_WITH_MEDIA =

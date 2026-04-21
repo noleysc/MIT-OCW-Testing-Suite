@@ -30,7 +30,7 @@ public class UserPreferencesSteps {
     @When("I toggle the course sidebar")
     public void iToggleTheCourseSidebar() {
         TestOutput.step("Toggle course sidebar (desktop or mobile path)");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         try {
             wait.until(ExpectedConditions.elementToBeClickable(By.id("course-nav-toggle"))).click();
             return;
@@ -41,17 +41,17 @@ public class UserPreferencesSteps {
         driver.manage().window().setSize(new Dimension(375, 812));
         driver.get(current);
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+            new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                     ExpectedConditions.elementToBeClickable(By.id("mobile-course-nav-toggle"))).click();
             return;
         } catch (Exception ignored2) {
             // Open mobile header flyout, then course menu control
         }
-        WebElement hamburger = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        WebElement hamburger = new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.elementToBeClickable(
                         By.cssSelector("#mobile-header .navbar-toggler, #mobile-header button.navbar-toggler")));
         hamburger.click();
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.elementToBeClickable(By.id("mobile-course-nav-toggle"))).click();
     }
 
@@ -61,7 +61,7 @@ public class UserPreferencesSteps {
             WebElement sidebar = driver.findElement(By.id("course-nav"));
             Assert.assertNotNull(sidebar.getCssValue("display"));
         } else {
-            WebElement drawer = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+            WebElement drawer = new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                     ExpectedConditions.presenceOfElementLocated(By.id("mobile-course-nav")));
             Assert.assertNotNull(drawer.getCssValue("display"));
         }
@@ -77,7 +77,7 @@ public class UserPreferencesSteps {
     @When("I accept the cookie consent")
     public void iAcceptTheCookieConsent() {
         try {
-            WebElement acceptBtn = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+            WebElement acceptBtn = new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                     ExpectedConditions.elementToBeClickable(By.id("cookie-consent-accept")));
             acceptBtn.click();
             TestOutput.outcome("Cookie accept", "clicked");
@@ -89,7 +89,7 @@ public class UserPreferencesSteps {
     @Then("the consent banner should disappear")
     public void theConsentBannerShouldDisappear() {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+            new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                     ExpectedConditions.invisibilityOfElementLocated(By.id("cookie-consent-banner")));
         } catch (Exception e) {
             if (driver.findElements(By.id("cookie-consent-banner")).isEmpty()) {

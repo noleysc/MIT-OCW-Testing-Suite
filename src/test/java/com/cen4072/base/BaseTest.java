@@ -75,9 +75,10 @@ public class BaseTest {
         return new WebDriverWait(driver, duration);
     }
 
-    protected void openRelativePath(String pathStartingWithSlash) {
-        String root = BASE_URL.endsWith("/") ? BASE_URL.substring(0, BASE_URL.length() - 1) : BASE_URL;
-        String fullUrl = root + pathStartingWithSlash;
+    protected void openRelativePath(String path) {
+        String root = BASE_URL.endsWith("/") ? BASE_URL : BASE_URL + "/";
+        String relative = path.startsWith("/") ? path.substring(1) : path;
+        String fullUrl = root + relative;
         if (TestOutput.traceNav()) {
             TestOutput.step("Navigate to: " + fullUrl);
         }

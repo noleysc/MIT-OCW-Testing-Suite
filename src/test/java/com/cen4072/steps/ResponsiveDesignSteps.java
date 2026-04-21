@@ -17,24 +17,30 @@ import java.time.Duration;
 
 public class ResponsiveDesignSteps {
 
-    WebDriver driver = CommonSteps.getDriver();
+    private static WebDriver driver() {
+        return java.util.Objects.requireNonNull(
+                CommonSteps.getDriver(),
+                "WebDriver not initialized (did @Before run?)");
+    }
 
     @When("I resize the browser to {string}")
     public void iResizeTheBrowserTo(String dimensions) {
+        WebDriver driver = driver();
         String[] parts = dimensions.split("x");
         int width = Integer.parseInt(parts[0]);
         int height = Integer.parseInt(parts[1]);
         driver.manage().window().setSize(new Dimension(width, height));
         TestOutput.step("Resize viewport to " + dimensions);
         driver.get(CommonSteps.BASE_URL);
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.presenceOfElementLocated(By.cssSelector("header, #mobile-header, input[name='q']")));
         TestOutput.outcome("URL after resize+load", driver.getCurrentUrl());
     }
 
     @Then("the mobile navigation menu should be visible")
     public void theMobileNavigationMenuShouldBeVisible() {
-        WebElement mobileMenuBtn = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        WebDriver driver = driver();
+        WebElement mobileMenuBtn = new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.cssSelector("#mobile-header .navbar-toggler, #mobile-header button.navbar-toggler")));
         Assert.assertTrue(mobileMenuBtn.isDisplayed());
@@ -43,7 +49,8 @@ public class ResponsiveDesignSteps {
 
     @Then("the site should adapt to tablet layout")
     public void theSiteShouldAdaptToTabletLayout() {
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        WebDriver driver = driver();
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.presenceOfElementLocated(By.cssSelector(".course-cards .course-card")));
         int cards = driver.findElements(By.cssSelector(".course-cards .course-card")).size();
         Assert.assertTrue(cards >= 2, "Tablet width should still show multiple course cards on the home grid");
@@ -52,7 +59,8 @@ public class ResponsiveDesignSteps {
 
     @Then("the full desktop header should be visible")
     public void theFullDesktopHeaderShouldBeVisible() {
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        WebDriver driver = driver();
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.presenceOfElementLocated(By.cssSelector("#desktop-header, header")));
         if (!driver.findElements(By.id("desktop-header")).isEmpty()) {
             Assert.assertTrue(driver.findElement(By.id("desktop-header")).isDisplayed());
@@ -64,13 +72,15 @@ public class ResponsiveDesignSteps {
 
     @Given("I have resized the browser to {string}")
     public void iHaveResizedTheBrowserTo(String dimensions) {
+        WebDriver driver = driver();
         iResizeTheBrowserTo(dimensions);
         driver.get(CommonSteps.BASE_URL);
     }
 
     @When("I search for {string}")
     public void iSearchFor(String keyword) {
-        WebElement searchInput = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        WebDriver driver = driver();
+        WebElement searchInput = new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.elementToBeClickable(By.cssSelector("input[name='q']")));
         searchInput.clear();
         searchInput.sendKeys(keyword);
@@ -80,7 +90,8 @@ public class ResponsiveDesignSteps {
 
     @Then("the search results should be readable on mobile")
     public void theSearchResultsShouldBeReadableOnMobile() {
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        WebDriver driver = driver();
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.presenceOfElementLocated(By.cssSelector("#search-page a[href*='/courses/']")));
         int n = driver.findElements(By.cssSelector("#search-page a[href*='/courses/']")).size();
         Assert.assertTrue(n > 0);
@@ -89,9 +100,10 @@ public class ResponsiveDesignSteps {
 
     @Then("the course cards should stack in a single column")
     public void theCourseCardsShouldStackInASingleColumn() {
+        WebDriver driver = driver();
         driver.get(CommonSteps.BASE_URL);
         iSearchFor("Python");
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.cssSelector("#search-page a[href*='/courses/'], #search-page .course-card, .course-card")));
         int results = driver.findElements(By.cssSelector("#search-page a[href*='/courses/']")).size();

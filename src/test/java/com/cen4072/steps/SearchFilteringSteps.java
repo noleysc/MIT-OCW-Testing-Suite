@@ -16,10 +16,15 @@ import java.time.Duration;
 
 public class SearchFilteringSteps {
 
-    WebDriver driver = CommonSteps.getDriver();
+    private static WebDriver driver() {
+        return java.util.Objects.requireNonNull(
+                CommonSteps.getDriver(),
+                "WebDriver not initialized (did @Before run?)");
+    }
 
     @Given("I am on the OCW search page")
     public void iAmOnTheOCWSearchPage() {
+        WebDriver driver = driver();
         String url = CommonSteps.BASE_URL + "search/";
         TestOutput.step("Open search: " + url);
         driver.get(url);
@@ -27,6 +32,7 @@ public class SearchFilteringSteps {
 
     @When("I apply the {string} topic filter")
     public void iApplyTheTopicFilter(String topic) {
+        WebDriver driver = driver();
         String urlTopic = topic.replace(" ", "+");
         TestOutput.step("Apply topic filter URL t=" + urlTopic);
         driver.get(CommonSteps.BASE_URL + "search/?t=" + urlTopic);
@@ -36,6 +42,7 @@ public class SearchFilteringSteps {
 
     @Then("I should see course results for {string}")
     public void iShouldSeeCourseResultsFor(String topic) {
+        WebDriver driver = driver();
         Assert.assertTrue(countCourseResultLinks() > 0, "Topic filter should return course results");
         Assert.assertTrue(driver.getPageSource().contains(topic) || driver.getCurrentUrl().contains(topic.replace(" ", "+")));
         TestOutput.outcome("Results URL", driver.getCurrentUrl());
@@ -43,6 +50,7 @@ public class SearchFilteringSteps {
 
     @When("I apply the {string} level filter")
     public void iApplyTheLevelFilter(String level) {
+        WebDriver driver = driver();
         TestOutput.step("Apply level filter l=" + level);
         driver.get(CommonSteps.BASE_URL + "search/?l=" + level);
         waitForSearchResultsLoaded();
@@ -51,6 +59,7 @@ public class SearchFilteringSteps {
 
     @When("I apply the {string} department filter")
     public void iApplyTheDepartmentFilter(String dept) {
+        WebDriver driver = driver();
         TestOutput.step("Apply department filter d=" + dept);
         driver.get(CommonSteps.BASE_URL + "search/?d=" + dept);
         waitForSearchResultsLoaded();
@@ -59,6 +68,7 @@ public class SearchFilteringSteps {
 
     @Given("I have applied {string} topic and {string} level filters")
     public void iHaveAppliedTopicAndLevelFilters(String topic, String level) {
+        WebDriver driver = driver();
         TestOutput.step("Combined filters t=" + topic + " l=" + level);
         driver.get(CommonSteps.BASE_URL + "search/?t=" + topic + "&l=" + level);
         waitForSearchResultsLoaded();
@@ -67,7 +77,8 @@ public class SearchFilteringSteps {
 
     @When("I click the \"Clear All\" button")
     public void iClickTheClearAllButton() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriver driver = driver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         WebElement clearAll = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(., 'Clear All')]")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", clearAll);
         clearAll.click();
@@ -76,7 +87,8 @@ public class SearchFilteringSteps {
 
     @Then("the active filters should be removed from the search")
     public void theActiveFiltersShouldBeRemovedFromTheSearch() {
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(d -> {
+        WebDriver driver = driver();
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(d -> {
             String u = d.getCurrentUrl();
             return !(u.contains("t=Engineering") && u.contains("l=Undergraduate"));
         });
@@ -90,6 +102,7 @@ public class SearchFilteringSteps {
 
     @Then("I should see results matching both {string} and {string}")
     public void iShouldSeeResultsMatchingBothAnd(String topic, String level) {
+        WebDriver driver = driver();
         Assert.assertTrue(countCourseResultLinks() > 0);
         String url = driver.getCurrentUrl();
         Assert.assertTrue(url.contains(topic) && url.contains(level));
@@ -97,11 +110,13 @@ public class SearchFilteringSteps {
     }
 
     private void waitForSearchResultsLoaded() {
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        WebDriver driver = driver();
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.presenceOfElementLocated(By.cssSelector("#search-page a[href*='/courses/']")));
     }
 
     private int countCourseResultLinks() {
+        WebDriver driver = driver();
         return driver.findElements(By.cssSelector("#search-page a[href*='/courses/']")).size();
     }
 }

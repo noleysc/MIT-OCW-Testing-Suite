@@ -26,7 +26,7 @@ public class ResourceTypesSteps {
         String url = CommonSteps.BASE_URL + "search/?resource_type=" + urlType;
         TestOutput.step("Resource type search: " + url);
         driver.get(url);
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(
                 ExpectedConditions.presenceOfElementLocated(By.cssSelector("#search-page a[href*='/courses/']")));
         TestOutput.outcome("Course links for resource_type", driver.findElements(By.cssSelector("#search-page a[href*='/courses/']")).size());
     }
@@ -65,7 +65,7 @@ public class ResourceTypesSteps {
     @Then("I should find a valid PDF resource link")
     public void iShouldFindAValidPDFResourceLink() {
         WebDriver driver = driver();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.urlContains("/resources/"));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("h1")));
 
